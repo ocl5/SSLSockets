@@ -34,7 +34,7 @@ public class Client
 
             //Versión cifrada
             //Create SSLSocket using SSLServerFactory already established ssl context and connect to server
-            //SSLSocket sslSocket = (SSLSocket)sslsocketfactory.createSocket(serverName,serverPort);
+            SSLSocket sslSocket = (SSLSocket)sslsocketfactory.createSocket(serverName,serverPort);
 
             //Version no cifrada
             //Socket sslSocket = new Socket(serverName,serverPort);

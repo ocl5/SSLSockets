@@ -33,10 +33,10 @@ public class Server
             
             //Versión cifrada
             //Create SSLServerSocket using SSLServerSocketFactory established ssl context
-            //SSLServerSocket sslServerSocket = (SSLServerSocket)sslServerSocketfactory.createServerSocket(port);
+            SSLServerSocket sslServerSocket = (SSLServerSocket)sslServerSocketfactory.createServerSocket(port);
 
             //Versión no cifrada
-            ServerSocket sslServerSocket = new ServerSocket(port);
+            //ServerSocket sslServerSocket = new ServerSocket(port);
 
             System.out.println("Echo Server Started & Ready to accept Client Connection");
             //Versión cifrada
