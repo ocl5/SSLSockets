@@ -10,12 +10,7 @@ import java.security.Security;
 
 public class Client
 {
-    public static void main(String args[])
-    {
-        //The Port number through which the server will accept this clients connection
-        int serverPort = 35786;
-        //The Server Address
-        String serverName = "localhost";
+    public void menu(String serverName, String serverPort){
         /*Adding the JSSE (Java Secure Socket Extension) provider which provides SSL and TLS protocols
         and includes functionality for data encryption, server authentication, message integrity, 
         and optional client authentication.*/
@@ -34,7 +29,7 @@ public class Client
 
             //Versión cifrada
             //Create SSLSocket using SSLServerFactory already established ssl context and connect to server
-            SSLSocket sslSocket = (SSLSocket)sslsocketfactory.createSocket(serverName,serverPort);
+            SSLSocket sslSocket = (SSLSocket)sslsocketfactory.createSocket(serverName,Integer.parseInt(serverPort));
 
             //Version no cifrada
             //Socket sslSocket = new Socket(serverName,serverPort);
@@ -62,5 +57,27 @@ public class Client
         {
             System.err.println("Error Happened : "+ex.toString());
         }
+    }
+
+
+    public static void main(String args[])
+    {
+        Client cl = new Client();
+
+        String serverName;
+		String serverPort;
+
+		if (args.length < 2) {
+			System.out.println ("Debe indicar la direccion del servidor y el puerto");
+			System.out.println ("$./Cliente nombre_servidor puerto_servidor");
+			System.exit(-1);
+		}
+		serverName = args[0];
+		serverPort = args[1];
+
+		while(true)
+		{
+			cl.menu(serverName,serverPort);
+		}
     }
 }

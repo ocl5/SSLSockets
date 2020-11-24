@@ -14,7 +14,17 @@ public class Server
     public static void main(String args[])
     {
         //The Port number through which this server will accept client connections
-        int port = 35786;
+        String port;
+
+        Server sr = new Server();
+
+        if (args.length < 1) {
+            System.out.println("Debe indicar el puerto de escucha del servidor");
+            System.out.println("$./Servidor puerto_servidor");
+            System.exit (1);
+        }
+        port = args[0];
+ 
         /*Adding the JSSE (Java Secure Socket Extension) provider which provides SSL and TLS protocols
         and includes functionality for data encryption, server authentication, message integrity, 
         and optional client authentication.*/
@@ -33,7 +43,7 @@ public class Server
             
             //Versión cifrada
             //Create SSLServerSocket using SSLServerSocketFactory established ssl context
-            SSLServerSocket sslServerSocket = (SSLServerSocket)sslServerSocketfactory.createServerSocket(port);
+            SSLServerSocket sslServerSocket = (SSLServerSocket)sslServerSocketfactory.createServerSocket(Integer.parseInt(port));
 
             //Versión no cifrada
             //ServerSocket sslServerSocket = new ServerSocket(port);
