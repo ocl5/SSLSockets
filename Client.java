@@ -10,21 +10,106 @@ import java.security.Security;
 
 public class Client
 {
-    public void menu(String serverName, String serverPort){
-        /*Adding the JSSE (Java Secure Socket Extension) provider which provides SSL and TLS protocols
-        and includes functionality for data encryption, server authentication, message integrity, 
-        and optional client authentication.*/
 
-        //specifing the trustStore file which contains the certificate & public of the server
-        System.setProperty("javax.net.ssl.trustStore","myTrustStore.jts");
-        //specifing the password of the trustStore file
-        System.setProperty("javax.net.ssl.trustStorePassword","123456");
-        //This optional and it is just to show the dump of the details of the handshake process 
-        //System.setProperty("javax.net.debug","all");
-        
+    public String leeSocket(SSLSocket p_sk, String p_Datos){
         try
-        {
-            //SSLSSocketFactory establishes the ssl context and and creates SSLSocket 
+		{
+			InputStream aux = p_sk.getInputStream();
+			DataInputStream flujo = new DataInputStream( aux );
+			p_Datos = flujo.readUTF();
+		}
+		catch (Exception e)
+		{
+			System.out.println("Error: " + e.toString());
+		}
+        return p_Datos;     
+    }
+
+
+
+    public void escribeSocket(SSLSocket p_sk, String p_Datos){
+        try
+		{
+			OutputStream aux = p_sk.getOutputStream();
+			DataOutputStream flujo= new DataOutputStream( aux );
+			flujo.writeUTF(p_Datos);      
+		}
+		catch (Exception e)
+		{
+			System.out.println("Error: " + e.toString());
+		}
+		return;
+    }
+
+
+
+    public int pedirNumeros(String p_operacion, int p_resultado, String p_Cadena, SSLSocket p_Socket_Con_Servidor)	{
+		int op1 = 10;
+		int op2 = 10;
+		InputStreamReader isr = new InputStreamReader(System.in);
+		BufferedReader br = new BufferedReader (isr);
+		try
+		{	
+			System.out.println(p_operacion);
+			
+				while (op1 < 0 || op1 > 9){
+					System.out.println("Introduzca el primer operando [0-9]:");
+					op1 = Integer.parseInt(br.readLine());
+				}
+
+				while (op2 < 0 || op2 > 9){
+					System.out.println("Introduzca el segundo operando [0-9]:");
+					op2 = Integer.parseInt(br.readLine());
+				}						
+					
+
+			p_Cadena = p_operacion + "," + op1 + "," + op2; 
+
+			escribeSocket (p_Socket_Con_Servidor, p_Cadena);
+			p_Cadena = "";
+			p_Cadena = leeSocket (p_Socket_Con_Servidor, p_Cadena);
+		 	p_resultado = Integer.parseInt(p_Cadena);
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("Error: " + e.toString());
+		}
+		return p_resultado;
+	}
+
+
+
+    public void pedirOperacion(String serverName, String serverPort){
+        int operacion;
+		int salir = 0;
+		int resultado = 0;
+		char resp = 'x';
+
+		/*
+		* Descriptor del socket y buffer para datos
+		*/
+		String Cadena = "";
+		String  op = "";
+		InputStreamReader isr = new InputStreamReader(System.in);
+		BufferedReader br = new BufferedReader (isr);
+			
+		/*
+		* Se abre la conexion con el servidor, pasando el nombre del ordenador
+		* y el servicio solicitado.
+		*/
+		try
+		{
+            
+            //specifing the trustStore file which contains the certificate & public of the server
+            System.setProperty("javax.net.ssl.trustStore","myTrustStore.jts");
+            //specifing the password of the trustStore file
+            System.setProperty("javax.net.ssl.trustStorePassword","123456");
+            //This optional and it is just to show the dump of the details of the handshake process 
+            //System.setProperty("javax.net.debug","all");
+
+
+			//SSLSSocketFactory establishes the ssl context and and creates SSLSocket 
             SSLSocketFactory sslsocketfactory = (SSLSocketFactory)SSLSocketFactory.getDefault();
 
             //Versión cifrada
@@ -34,29 +119,95 @@ public class Client
             //Version no cifrada
             //Socket sslSocket = new Socket(serverName,serverPort);
 
-            //Create OutputStream to send message to server
-            DataOutputStream outputStream = new DataOutputStream(sslSocket.getOutputStream());
-            //Create InputStream to read messages send by the server
-            DataInputStream inputStream = new DataInputStream(sslSocket.getInputStream());
-            //read the first message send by the server after being connected
-            System.out.println(inputStream.readUTF());
-            //Keep sending sending the server the message entered by the client unless the it is "close"
-            while (true)
-            {
-                System.out.println("Write a Message : ");
-                String messageToSend = System.console().readLine();
-                outputStream.writeUTF(messageToSend);
-                System.err.println(inputStream.readUTF());
-                if(messageToSend.equals("close"))
-                {
-                    break;
-                }
-            }
-        }
-        catch(Exception ex)
-        {
-            System.err.println("Error Happened : "+ex.toString());
-        }
+			
+            while (salir == 0)
+			{
+				operacion = 0;
+				while (operacion !=1 && operacion !=2 && operacion !=3)
+				{
+					System.out.println("[1] Sumar");
+					System.out.println("[2] Multiplicar");
+					System.out.println("[3] Restar");
+					System.out.println("Indica la operacion a realizar: ");
+					operacion = Integer.parseInt(br.readLine());
+				}
+
+				switch(operacion){
+					case 1: op="suma";
+					break;
+
+					case 2: op="mult";
+					break;
+
+					case 3: op="resta";
+					break;
+				}
+
+				resultado = pedirNumeros(op, resultado, Cadena, sslSocket);
+				resp='x';
+				while(resp != 's' && resp != 'n')
+				{
+					System.out.println("El resultado es: " + resultado);
+					System.out.println("Desea realizar otra operacion? [s,n]: ");
+					resp = br.readLine().charAt(0);					
+				}
+				if (resp != 's')
+				{
+					salir = 1;
+					/*
+					* Se cierra el socket con el servidor
+					*/
+					
+					escribeSocket (sslSocket, "fin");
+					
+					Cadena = leeSocket (sslSocket, Cadena);
+					resultado = Integer.parseInt(Cadena);
+		 			
+					if (resultado == -1)
+					{
+						sslSocket.close();
+						System.out.println("Conexion cerrada.");
+						System.exit(0);	
+					}
+				}
+				Cadena = "";
+				op = "";
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Error: " + e.toString());
+		}
+		return;
+    }
+
+    public void menu(String serverName, String serverPort){
+        int opc = 0;
+		try
+		{
+			
+			while (opc!=1 && opc!=2)
+			{
+				System.out.println("[1] Realizar operacion\n");
+				System.out.println("[2] Salir");
+				System.out.println("Indique la opcion a realizar:");
+				InputStreamReader isr = new InputStreamReader(System.in);
+				BufferedReader br = new BufferedReader (isr);
+				opc = Integer.parseInt(br.readLine());
+			}
+			if (opc == 1)
+			{
+				pedirOperacion(serverName,serverPort);
+			}
+			else
+			{
+				System.exit(0);
+			}
+		}catch(Exception e)
+		{
+			System.out.println("Error " + e.toString());
+		}
+		return;
     }
 
 
