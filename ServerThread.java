@@ -1,11 +1,17 @@
-import java.lang.Exception;
-import java.net.Socket;
 import java.io.*;
+import java.net.*;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
+import java.security.Security;
 
 public class ServerThread extends Thread {
 
 	private Socket skCliente;
-	
+
 	public ServerThread(Socket p_cliente){
 		this.skCliente = p_cliente;
 	}

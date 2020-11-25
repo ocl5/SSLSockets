@@ -131,7 +131,7 @@ public class Server
             SSLServerSocket sslServerSocket = (SSLServerSocket)sslServerSocketfactory.createServerSocket(Integer.parseInt(port));
 
             //Versión no cifrada
-            //ServerSocket sslServerSocket = new ServerSocket(port);
+            //ServerSocket sslServerSocket = new ServerSocket(Integer.parseInt(port));
 
             System.out.println("Echo Server Started & Ready to accept Client Connection");
 
@@ -159,6 +159,7 @@ public class Server
 					Cadena = Integer.toString(resultado);
 					sr.escribeSocket (sslSocket, Cadena);						
                 }
+				
                 sslSocket.close();
 				System.exit(0);
             }            
