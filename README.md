@@ -25,7 +25,8 @@ java Server 8000
 java Client localhost 8000
 
 ########        VERSIÓN CONCURRENTE       ###########
-( Varios cliente de forma simulánea mediante hilos  )
+.(Varios cliente de forma simulánea mediante hilos  ).
+
 4b - Compilamos el Servidor
 javac ConcurrentServer.java
 
