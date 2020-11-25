@@ -10,7 +10,7 @@ keytool -import -file mykey.cert -alias mykey -keystore myTrustStore.jts
 
 
 ########        VERSIÓN SECUENCIAL        ###########
-# Solo atenderemos a un cliente de forma simumtánea #
+# Solo atenderemos a un cliente de forma simultánea #
 
 4a - Compilamos el Servidor
 javac Server.java
