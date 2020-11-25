@@ -8,36 +8,34 @@ import javax.net.ssl.SSLSocketFactory;
 import java.security.Security;
 
 
-public class Client
-{
+public class Client{
 
     public String leeSocket(Socket p_sk, String p_Datos){
-        try
-		{
+
+        try	{
 			InputStream aux = p_sk.getInputStream();
 			DataInputStream flujo = new DataInputStream( aux );
 			p_Datos = flujo.readUTF();
-		}
-		catch (Exception e)
-		{
+		}catch (Exception e){
 			System.out.println("Error: " + e.toString());
 		}
+
         return p_Datos;     
     }
 
 
 
     public void escribeSocket(Socket p_sk, String p_Datos){
-        try
-		{
+
+        try{
 			OutputStream aux = p_sk.getOutputStream();
 			DataOutputStream flujo= new DataOutputStream( aux );
 			flujo.writeUTF(p_Datos);      
 		}
-		catch (Exception e)
-		{
+		catch (Exception e)	{
 			System.out.println("Error: " + e.toString());
 		}
+
 		return;
     }
 
@@ -48,20 +46,19 @@ public class Client
 		int op2 = 10;
 		InputStreamReader isr = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader (isr);
-		try
-		{	
+
+		try	{	
 			System.out.println(p_operacion);
 			
-				while (op1 < 0 || op1 > 9){
-					System.out.println("Introduzca el primer operando [0-9]:");
-					op1 = Integer.parseInt(br.readLine());
-				}
+			while (op1 < 0 || op1 > 9){
+				System.out.print("Introduzca el primer operando [0-9]:");
+				op1 = Integer.parseInt(br.readLine());
+			}
 
-				while (op2 < 0 || op2 > 9){
-					System.out.println("Introduzca el segundo operando [0-9]:");
-					op2 = Integer.parseInt(br.readLine());
-				}						
-					
+			while (op2 < 0 || op2 > 9){
+				System.out.print("Introduzca el segundo operando [0-9]:");
+				op2 = Integer.parseInt(br.readLine());
+			}							
 
 			p_Cadena = p_operacion + "," + op1 + "," + op2; 
 
@@ -70,11 +67,10 @@ public class Client
 			p_Cadena = leeSocket (p_Socket_Con_Servidor, p_Cadena);
 		 	p_resultado = Integer.parseInt(p_Cadena);
 			
-		}
-		catch(Exception e)
-		{
+		}catch(Exception e)	{
 			System.out.println("Error: " + e.toString());
 		}
+
 		return p_resultado;
 	}
 
@@ -98,8 +94,7 @@ public class Client
 		* Se abre la conexion con el servidor, pasando el nombre del ordenador
 		* y el servicio solicitado.
 		*/
-		try
-		{
+		try	{
             
             //specifing the trustStore file which contains the certificate & public of the server
             System.setProperty("javax.net.ssl.trustStore","myTrustStore.jts");
@@ -122,14 +117,16 @@ public class Client
             //Socket sslSocket = new Socket(serverName,Integer.parseInt(serverPort));
 
 			
-            while (salir == 0)
-			{
+            while (salir == 0){
 				operacion = 0;
-				while (operacion !=1 && operacion !=2 && operacion !=3)
-				{
+
+				while (operacion !=1 && operacion !=2 && operacion !=3)	{
+					System.out.println("------------------------");
+					System.out.println("OPERACIONES");
 					System.out.println("[1] Sumar");
 					System.out.println("[2] Multiplicar");
-					System.out.println("Indica la operacion a realizar: ");
+					System.out.println("------------------------");
+					System.out.print("Indica la operacion a realizar: ");
 					operacion = Integer.parseInt(br.readLine());
 				}
 
@@ -143,14 +140,15 @@ public class Client
 
 				resultado = pedirNumeros(op, resultado, Cadena, sslSocket);
 				resp='x';
-				while(resp != 's' && resp != 'n')
-				{
+
+				while(resp != 's' && resp != 'n'){
 					System.out.println("El resultado es: " + resultado);
-					System.out.println("Desea realizar otra operacion? [s,n]: ");
+					System.out.println("------------------------");
+					System.out.print("Desea realizar otra operacion? [s,n]: ");
 					resp = br.readLine().charAt(0);					
 				}
-				if (resp != 's')
-				{
+
+				if (resp != 's'){
 					salir = 1;
 					/*
 					* Se cierra el socket con el servidor
@@ -161,8 +159,7 @@ public class Client
 					Cadena = leeSocket (sslSocket, Cadena);
 					resultado = Integer.parseInt(Cadena);
 		 			
-					if (resultado == -1)
-					{
+					if (resultado == -1){
 						sslSocket.close();
 						System.out.println("Conexion cerrada.");
 						System.exit(0);	
@@ -171,46 +168,50 @@ public class Client
 				Cadena = "";
 				op = "";
 			}
+
+		}catch(ConnectException e){
+			System.out.println("El servidor no está disponible. Intentelo mas tarde");
+			System.out.println("------------------------");
 		}
-		catch(Exception e)
-		{
+		catch(Exception e)	{
 			System.out.println("Error: " + e.toString());
 		}
+
 		return;
     }
 
     public void menu(String serverName, String serverPort){
         int opc = 0;
-		try
-		{
+		try	{
 			
-			while (opc!=1 && opc!=2)
-			{
-				System.out.println("[1] Realizar operacion\n");
+			while (opc!=1 && opc!=2) {
+				System.out.println("OPCIONES");
+				System.out.println("[1] Realizar operacion");
 				System.out.println("[2] Salir");
-				System.out.println("Indique la opcion a realizar:");
+				System.out.println("------------------------");
+				System.out.print("Indique la opcion a realizar:");
+		
+					
 				InputStreamReader isr = new InputStreamReader(System.in);
 				BufferedReader br = new BufferedReader (isr);
+
 				opc = Integer.parseInt(br.readLine());
 			}
+
 			if (opc == 1)
-			{
 				pedirOperacion(serverName,serverPort);
-			}
-			else
-			{
-				System.exit(0);
-			}
-		}catch(Exception e)
-		{
+			
+			else System.exit(0);
+			
+		}catch(Exception e)	{
 			System.out.println("Error " + e.toString());
 		}
+
 		return;
     }
 
 
-    public static void main(String args[])
-    {
+    public static void main(String args[])  {
         Client cl = new Client();
 
         String serverName;
@@ -221,11 +222,11 @@ public class Client
 			System.out.println ("$./Cliente nombre_servidor puerto_servidor");
 			System.exit(-1);
 		}
+
 		serverName = args[0];
 		serverPort = args[1];
 
-		while(true)
-		{
+		while(true)	{
 			cl.menu(serverName,serverPort);
 		}
     }
