@@ -2,11 +2,11 @@ import java.lang.Exception;
 import java.net.Socket;
 import java.io.*;
 
-public class HiloServidor extends Thread {
+public class ServerThread extends Thread {
 
 	private Socket skCliente;
 	
-	public HiloServidor(Socket p_cliente){
+	public ServerThread(Socket p_cliente){
 		this.skCliente = p_cliente;
 	}
 	

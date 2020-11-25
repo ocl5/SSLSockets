@@ -3,3 +3,5 @@ Server.class
 mykey.cert
 myKeyStore.jks
 myTrustStore.jts
+ServerThread.class
+ConcurrentServer.class

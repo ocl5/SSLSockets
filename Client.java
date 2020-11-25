@@ -11,7 +11,7 @@ import java.security.Security;
 public class Client
 {
 
-    public String leeSocket(SSLSocket p_sk, String p_Datos){
+    public String leeSocket(Socket p_sk, String p_Datos){
         try
 		{
 			InputStream aux = p_sk.getInputStream();
@@ -27,7 +27,7 @@ public class Client
 
 
 
-    public void escribeSocket(SSLSocket p_sk, String p_Datos){
+    public void escribeSocket(Socket p_sk, String p_Datos){
         try
 		{
 			OutputStream aux = p_sk.getOutputStream();
@@ -43,7 +43,7 @@ public class Client
 
 
 
-    public int pedirNumeros(String p_operacion, int p_resultado, String p_Cadena, SSLSocket p_Socket_Con_Servidor)	{
+    public int pedirNumeros(String p_operacion, int p_resultado, String p_Cadena, Socket p_Socket_Con_Servidor)	{
 		int op1 = 10;
 		int op2 = 10;
 		InputStreamReader isr = new InputStreamReader(System.in);
@@ -116,10 +116,10 @@ public class Client
 
             //Versión cifrada
             //Create SSLSocket using SSLServerFactory already established ssl context and connect to server
-            SSLSocket sslSocket = (SSLSocket)sslsocketfactory.createSocket(serverName,Integer.parseInt(serverPort));
+            //SSLSocket sslSocket = (SSLSocket)sslsocketfactory.createSocket(serverName,Integer.parseInt(serverPort));
 
             //Version no cifrada
-            //Socket sslSocket = new Socket(serverName,serverPort);
+            Socket sslSocket = new Socket(serverName,Integer.parseInt(serverPort));
 
 			
             while (salir == 0)
@@ -129,7 +129,6 @@ public class Client
 				{
 					System.out.println("[1] Sumar");
 					System.out.println("[2] Multiplicar");
-					System.out.println("[3] Restar");
 					System.out.println("Indica la operacion a realizar: ");
 					operacion = Integer.parseInt(br.readLine());
 				}

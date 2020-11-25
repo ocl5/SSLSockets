@@ -17,7 +17,7 @@ public class Server
 	*	suficiente para los datos. Devuelve el numero de bytes leidos o
 	* 0 si se cierra fichero o -1 si hay error.
 	*/
-	public String leeSocket (SSLSocket p_sk, String p_Datos){
+	public String leeSocket (Socket p_sk, String p_Datos){
 		try
 		{
 			InputStream aux = p_sk.getInputStream();
@@ -38,7 +38,7 @@ public class Server
 	* Escribe dato en el socket cliente. Devuelve numero de bytes escritos,
 	* o -1 si hay error.
 	*/
-	public void escribeSocket (SSLSocket p_sk, String p_Datos){
+	public void escribeSocket (Socket p_sk, String p_Datos){
 		try
 		{
 			OutputStream aux = p_sk.getOutputStream();

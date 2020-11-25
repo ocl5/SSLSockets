@@ -1,11 +1,12 @@
 import java.net.*;
 
-public class ServidorConcurrente {
+public class ConcurrentServer {
 
 	/**
 	 * @param args
 	 */
 	@SuppressWarnings("resource")
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		/*
@@ -36,7 +37,7 @@ public class ServidorConcurrente {
 				Socket skCliente = skServidor.accept(); // Crea objeto
 		        System.out.println("Sirviendo cliente...");
 
-		        Thread t = new HiloServidor(skCliente);
+		        Thread t = new ServerThread(skCliente);
 		        t.start();
 			}
 		}
