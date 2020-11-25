@@ -10,7 +10,11 @@ keytool -import -file mykey.cert -alias mykey -keystore myTrustStore.jts
 
 
 ########        VERSIÓN SECUENCIAL        ###########
+<<<<<<< HEAD
 # Solo atenderemos a un cliente de forma simultánea #
+=======
+( Solo atenderemos a un cliente de forma simumtánea )
+>>>>>>> a9396e16e7c1d80646676e3a7f5778ea65ce1dd4
 
 4a - Compilamos el Servidor
 javac Server.java
@@ -25,7 +29,8 @@ java Server 8000
 java Client localhost 8000
 
 ########        VERSIÓN CONCURRENTE       ###########
-# Varios cliente de forma simulánea mediante hilos  #
+.(Varios cliente de forma simulánea mediante hilos  ).
+
 4b - Compilamos el Servidor
 javac ConcurrentServer.java
 
@@ -42,8 +47,8 @@ java Client localhost 8000
 
 
 ===============================
-Version cifrada vs no cifrada =
-===============================
+Version cifrada vs no cifrada 
+
 Tanto la versión secuencial como en la concurrente están codificadas de forma que se puede
 variar entre estas dos comentando las lineas en las que se indica.
 Esta codificación y negociación se puede rastrear fácilmente en Wireskark mediante el filtro:

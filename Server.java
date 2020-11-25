@@ -1,4 +1,4 @@
-//@author: Oscar Casado Lorenzo
+//@author: ocl5
 import java.io.*;
 import java.net.*;
 
