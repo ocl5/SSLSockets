@@ -100,10 +100,10 @@ public class Client{
             //specifing the trustStore file which contains the certificate & public of the server
             System.setProperty("javax.net.ssl.trustStore","myTrustStore.jts");
             
-			//specifing the password of the trustStore file
+	    //specifing the password of the trustStore file
             System.setProperty("javax.net.ssl.trustStorePassword","123456");
             
-			//This optional and it is just to show the dump of the details of the handshake process 
+	    //This optional and it is just to show the dump of the details of the handshake process 
             //System.setProperty("javax.net.debug","all");
 
 
