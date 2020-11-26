@@ -107,7 +107,7 @@ public class Client{
             //System.setProperty("javax.net.debug","all");
 
 
-			//SSLSSocketFactory establishes the ssl context and and creates SSLSocket 
+	    //SSLSSocketFactory establishes the ssl context and and creates SSLSocket 
             SSLSocketFactory sslsocketfactory = (SSLSocketFactory)SSLSocketFactory.getDefault();
 
             //Versión cifrada
