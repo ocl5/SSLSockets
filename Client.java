@@ -100,14 +100,14 @@ public class Client{
             //specifing the trustStore file which contains the certificate & public of the server
             System.setProperty("javax.net.ssl.trustStore","certs/myTrustStore.jts");
             
-			//specifing the password of the trustStore file
+	    //specifing the password of the trustStore file
             System.setProperty("javax.net.ssl.trustStorePassword","123456");
             
-			//This optional and it is just to show the dump of the details of the handshake process 
+	    //This optional and it is just to show the dump of the details of the handshake process 
             //System.setProperty("javax.net.debug","all");
 
 
-			//SSLSSocketFactory establishes the ssl context and and creates SSLSocket 
+	    //SSLSSocketFactory establishes the ssl context and and creates SSLSocket 
             SSLSocketFactory sslsocketfactory = (SSLSocketFactory)SSLSocketFactory.getDefault();
 
             //Versión cifrada
