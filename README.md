@@ -1,5 +1,5 @@
 
-1 - Primero generamos el certificado, la public/private key y las almacenamos en un fichero     keystore
+1 - Primero generamos el certificado, la public/private key del servidory las almacenamos en un fichero
 keytool -genkey -keyalg RSA -keysize 2048 -validity 360 -alias mykey -keystore myKeyStore.jks
 
 2 - Exportamos el certificado con la clave publica que debe se renviada al cliente

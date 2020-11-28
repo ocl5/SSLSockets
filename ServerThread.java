@@ -92,7 +92,6 @@ public class ServerThread extends Thread {
 	}
 	
 	
-	
     public void run() {
 		int resultado=0;
 		String Cadena="";

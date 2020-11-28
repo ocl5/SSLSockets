@@ -98,7 +98,7 @@ public class Client{
 		try	{
             
             //specifing the trustStore file which contains the certificate & public of the server
-            System.setProperty("javax.net.ssl.trustStore","myTrustStore.jts");
+            System.setProperty("javax.net.ssl.trustStore","certs/myTrustStore.jts");
             
 			//specifing the password of the trustStore file
             System.setProperty("javax.net.ssl.trustStorePassword","123456");

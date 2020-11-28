@@ -118,7 +118,7 @@ public class Server
             and optional client authentication.*/
             
             //specifing the keystore file which contains the certificate/public key and the private key
-            System.setProperty("javax.net.ssl.keyStore","myKeyStore.jks");
+            System.setProperty("javax.net.ssl.keyStore","certs/myKeyStore.jks");
             //specifing the password of the keystore file
             System.setProperty("javax.net.ssl.keyStorePassword","123456");
             //This optional and it is just to show the dump of the details of the handshake process 
